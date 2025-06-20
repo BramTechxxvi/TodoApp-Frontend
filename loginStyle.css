@@ -12,12 +12,13 @@ body{
 
 .MainWrapper {
     display: flex;
-    flex-direction: column;
+    /*flex-direction: column;*/
     justify-content: center;
     align-items: center;
     background-color: deepskyblue;
     width: 440px;
     height: 480px;
+    padding: 20px;
 }
 
 .loginBox {
@@ -38,44 +39,51 @@ body{
     border: none;
     outline: none;
     color: #000;
+    border-radius: 5px;
 }
 
-/*.forgot-password{*/
-/*    padding: 10px 0;*/
-/*}*/
+.forgot-password{
+    padding: 10px 0;
+}
 
-/*.forgot-password a{*/
-/*    text-decoration: none;*/
-/*    color: #1a5390;*/
-/*    font-size: 18px;*/
-/*    font-weight: 600;*/
-/*}*/
-/*.submit{*/
-/*    padding: 10px 0;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
+.forgot-password a{
+    text-decoration: none;
+    color: #1a5390;
+    font-size: 18px;
+    font-weight: 600;
+}
 
-/*#submit{*/
-/*    padding: 10px;*/
-/*    border: none;*/
-/*    outline: none;*/
-/*    color: #fff;*/
-/*    background-color: #1a5390;*/
-/*    transition: all 0.5s ease;*/
-/*}*/
-/*#submit:hover{*/
-/*    color: #000;*/
-/*    background-color: #1a5390;*/
-/*    box-shadow: 0 3px 10px #999999;*/
-/*    cursor: pointer;*/
-/*}*/
-/*.signUp{*/
-/*    padding: 10px 0;*/
-/*}*/
-/*.signUp p{*/
-/*    font-size: 17px;*/
-/*    font-weight: 500;*/
-/*    color: #fff;*/
-/*}*/
+.submit {
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#submit{
+    padding: 10px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background-color: #1a5390;
+    transition: all 0.5s ease;
+}
+
+#submit:hover{
+    color: #000;
+    background-color: #1a5390;
+    cursor: pointer;
+}
+
+.signUp{
+    padding: 10px 0;
+}
+.signUp p{
+    font-size: 17px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.signUp a{
+    text-decoration: none;
+}
