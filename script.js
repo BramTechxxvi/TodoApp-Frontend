@@ -1,7 +1,7 @@
-const API_URL = "http://localhost:8080/tasks";
+const URL = "http://localhost:8080/tasks";
 
 function fetchTasks() {
-    fetch(API_URL)
+    fetch(URL)
         .then(res => res.json())
         .then(tasks => {
             const taskList = document.getElementById("taskList");
@@ -20,9 +20,9 @@ function fetchTasks() {
 }
 
 function addTask() {
-    const input = document.getElementById("taskInput");
+    const input = document.getElementById("add-task");
     const task = { title: input.value };
-    fetch(API_URL, {
+    fetch(URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(task)
@@ -33,13 +33,36 @@ function addTask() {
         });
 }
 
+// function addTask() {
+//     const taskInput = document.getElementById("addTask");
+//     const text = taskInput.value.trim();
+//     if (text !== "") {
+//         tasks.push({text: text, completed: false});
+//         saveTask();
+//         displayTasks()
+//         taskInput.value = "";
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
 function deleteTask(id) {
-    fetch(`${API_URL}/delete/${id}`, { method: "DELETE" })
+    fetch(`${URL}/delete/${id}`, { method: "DELETE" })
         .then(() => fetchTasks());
 }
 
 function toggleComplete(id, isComplete) {
-    const endpoint = isComplete ? `${API_URL}/${id}/complete` : `${API_URL}/${id}/in-progress`;
+    const endpoint = isComplete ? `${URL}/${id}/complete` : `${URL}/${id}/in-progress`;
     fetch(endpoint, { method: "PATCH" })
         .then(() => fetchTasks());
 }

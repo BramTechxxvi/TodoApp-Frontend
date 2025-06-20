@@ -1,43 +1,50 @@
-/* Basic Reset */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-/* Body & Container */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f6f8;
+    font-family: arial, sans-serif;
+    padding: 20px;
+    background-image: url("https://images.unsplash.com/photo-1498050108023-c5249f4df085?crop=entropy&cs=tinysrgb&fit=max&ixid=MXwyMDg5OXwwfDF8c2VhcmNofDJ8fGRhcmsgYmFja3nDqXx8ZW58MHx8fHwxNjYyNzI4NjYx&ixlib=rb-1.2.1&q=80&w=1080");
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center center;
+}
+
+#search {
     display: flex;
-    justify-content: center;
-    padding: 40px 20px;
+    justify-content: right;
 }
 
-.container {
-    background: #fff;
-    width: 100%;
-    max-width: 480px;
-    padding: 30px 25px;
-    border-radius: 8px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+#searchTask {
+    width: 500px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: border-color 0.35s ease;
 }
 
-/* Heading */
-h1 {
+#search :focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.MainWrapper {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 50px;
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+#header {
     text-align: center;
-    color: #333;
-    margin-bottom: 20px;
 }
 
-/* Add Task Section */
 .add-task {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
 }
 
-#taskInput {
+#add-task {
     flex-grow: 1;
     padding: 10px 15px;
     font-size: 16px;
@@ -46,7 +53,7 @@ h1 {
     transition: border-color 0.3s ease;
 }
 
-#taskInput:focus {
+#add-task:focus {
     outline: none;
     border-color: #007bff;
 }
