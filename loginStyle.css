@@ -32,13 +32,13 @@ body{
     align-items: center;
 }
 
-/*.loginBox-main input{*/
-/*    width: 100%;*/
-/*    padding: 10px;*/
-/*    border: none;*/
-/*    outline: none;*/
-/*    color: #000;*/
-/*}*/
+.loginBox-main input{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    outline: none;
+    color: #000;
+}
 
 /*.forgot-password{*/
 /*    padding: 10px 0;*/
