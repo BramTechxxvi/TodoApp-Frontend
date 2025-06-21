@@ -38,14 +38,22 @@ body{
 
 .loginBox-main input{
     width: 250px;
-    padding: 10px;
+    height: 40px;
+    /*padding: 10px;*/
     border: none;
     outline: none;
     color: #000;
     border-radius: 5px;
 }
 
-
+.loginBox-main .icon {
+    position: fixed;
+    line-height: 45px;
+    right: 35rem;
+    color: black;
+    /*display: flex;*/
+    /*align-items: center;*/
+}
 
 .forgot-password{
     padding: 10px 0;
