@@ -38,7 +38,7 @@ body{
 
 .loginBox-main input{
     width: 250px;
-    height: 40px;
+    height: 45px;
     /*padding: 10px;*/
     border: none;
     outline: none;
@@ -54,6 +54,7 @@ body{
     font-size: 1.2em;
     /*display: flex;*/
     /*align-items: center;*/
+    padding: 1px;
 }
 
 .forgot-password{
@@ -81,6 +82,7 @@ body{
     color: #fff;
     background-color: #1a5390;
     transition: all 0.5s ease;
+    border-radius: 5px;
 }
 
 #submit:hover{
@@ -91,6 +93,8 @@ body{
 
 .signUp{
     padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
 }
 .signUp p{
     font-size: 17px;
