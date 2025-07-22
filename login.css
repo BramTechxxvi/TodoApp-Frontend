@@ -64,6 +64,7 @@ body{
 
 .forgot-password{
     padding: 10px 0;
+    cursor: pointer;
 }
 
 .forgot-password a{
@@ -93,6 +94,7 @@ body{
     background-color: #1a5390;
     transition: all 0.5s ease;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 #submit:hover{
