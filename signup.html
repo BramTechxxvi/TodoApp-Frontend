@@ -4,23 +4,31 @@
     <meta charset="UTF-8">
     <title>Todo App</title>
     <link rel="stylesheet" href="signup.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 <body>
 <div class="MainWrapper">
-    <div class="signUp-Box"></div>
-    <form method="post" action="">
-        <label for="firstName">First name:</label>
-        <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+    <div class="signUp-Box">
+        <div class="signUp-Logo">
+            <ion-icon name="checkbox-outline"></ion-icon>
+        </div>
+        <form method="post" action="">
+            
+            <div class="signUp-main">
+                <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+            </div>
 
-        <label for="lastName">Last name:</label>
-        <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+            <label for="lastName">Last name:</label>
+            <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required>
-    </form>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        </form>
+    </div>
 </div>
 
 </body>

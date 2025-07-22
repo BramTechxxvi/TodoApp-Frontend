@@ -5,7 +5,35 @@
 }
 
 body{
-    background-color: #f5f5f5;
+    background: url('images/todo-logo.jpg');
     margin: 0 auto;
     max-width: 100vh;
+    background-size: cover;
+    background-position: center;
+}
+
+.MainWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 500px;
+    border-radius: 10px;
+    margin: 50px auto;
+}
+
+.signupBox {
+    background: transparent;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 30px;
+    border-radius: 10px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.signup-Logo {
+    font-size: 60px;
+    color: #1a5390; 
+    margin-bottom: 20px;
 }
