@@ -7,7 +7,8 @@
 body{
     margin: 0 auto;
     max-width: 100vh;
-    background: url("/images/login-back.jpg");
+    background: #f5f7fa;
+;
     background-size: cover;
     background-position: center;
 }
