@@ -1,4 +1,6 @@
 const API_BASE = "http://localhost:8080";
+const TASK_API = `${API_BASE}/tasks`;
+const USER_API =  `${API_BASE}/users`;
 
 const token = localStorage.getItem("token");
 if (!token) window.location.href = "login.html";
@@ -33,24 +35,6 @@ function addTask() {
     })
 }
 
-function fetchTasks() {
-    fetch(URL)
-        .then(res => res.json())
-        .then(tasks => {
-            const taskList = document.getElementById("taskList");
-            taskList.innerHTML = "";
-            tasks.forEach(task => {
-                const li = document.createElement("li");
-                li.className = "task" + (task.completed ? " completed" : "");
-                li.innerHTML = `
-          <input type="checkbox" ${task.completed ? "checked" : ""} onclick="toggleComplete('${task.id}', ${!task.completed})">
-          <span>${task.title}</span>
-          <button onclick="deleteTask('${task.id}')">🗑️</button>
-        `;
-                taskList.appendChild(li);
-            });
-        });
-}
 
 
 
