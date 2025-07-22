@@ -1,42 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Login - TODO App</title>
-  <link rel="stylesheet" href="ss.css">
-</head>
-<body>
-  <h2>Login</h2>
-  <input type="email" id="email" placeholder="Email" />
-  <input type="password" id="password" placeholder="Password" />
-  <button onclick="login()">Login</button>
-  <p>Don't have an account? <a href="register.html">Register here</a></p>
+// Replace BASE_URL with your Spring Boot backend base path
+const BASE_URL = 'http://localhost:8080'; 
+const USER_ID = localStorage.getItem('userId'); // assuming user ID is stored in localStorage
 
-  <script>
-    const API = "http://localhost:8080/api";
+const taskList = document.getElementById('taskList');
+const addInput = document.getElementById('add-task');
 
-    async function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+window.onload = () => {
+    loadUserEmail();
+    fetchTasks();
+};
 
-      try {
-        const res = await fetch(`${API}/users/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password })
+function loadUserEmail() {
+    const email = localStorage.getItem('userEmail');
+    if (email) document.getElementById('user-email').textContent = `Welcome, ${email}`;
+}
+
+
+function changeEmail() {
+    const email = document.getElementById('new-email').value;
+    fetch(`${BASE_URL}/api/user/changeEmail`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: USER_ID, newEmail: email })
+    }).then(() => {
+        localStorage.setItem('userEmail', email);
+        loadUserEmail();
+        alert('Email updated.');
+    });
+}
+
+function changePassword() {
+    const password = document.getElementById('new-password').value;
+    fetch(`${BASE_URL}/api/user/changePassword`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: USER_ID, newPassword: password })
+    }).then(() => alert('Password updated.'));
+}
+
+function fetchTasks() {
+    fetch(`${BASE_URL}/api/task/getAllTasks/${USER_ID}`)
+        .then(res => res.json())
+        .then(data => {
+            taskList.innerHTML = '';
+            data.forEach(task => renderTask(task));
         });
+}
 
-        const data = await res.json();
-        if (data.token) {
-          localStorage.setItem("token", data.token);
-          window.location.href = "index.html";
-        } else {
-          alert("Login failed");
-        }
-      } catch (err) {
-        alert("Error: " + err.message);
-      }
-    }
-  </script>
-</body>
-</html>
+function addTask() {
+    const text = addInput.value.trim();
+    if (!text) return;
+    fetch(`${BASE_URL}/api/task/add`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: USER_ID, title: text })
+    })
+    .then(res => res.json())
+    .then(task => {
+        renderTask(task);
+        addInput.value = '';
+    });
+}
+
+function renderTask(task) {
+    const li = document.createElement('li');
+    li.dataset.id = task.id;
+    li.innerHTML = `
+        <span class="task-title">${task.title}</span>
+        <span class="status-badge ${task.status}">${task.status === 'completed' ? '✅ Completed' : '⏳ In Progress'}</span>
+        <button onclick="markAsCompleted('${task.id}')">Mark Done</button>
+        <button onclick="markAsInProgress('${task.id}')">Mark In Progress</button>
+        <button onclick="deleteTask('${task.id}')">Delete</button>
+    `;
+    taskList.appendChild(li);
+}
+
+function deleteTask(id) {
+    fetch(`${BASE_URL}/api/task/delete/${id}`, { method: 'DELETE' })
+        .then(() => document.querySelector(`li[data-id='${id}']`).remove());
+}
+
+
+function updateStatus(id, status) {
+    fetch(`${BASE_URL}/api/task/updateStatus/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+    })
+    .then(() => fetchTasks());
+}
+

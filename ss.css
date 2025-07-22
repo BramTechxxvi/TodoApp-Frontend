@@ -1,58 +1,88 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
+
+/* function showEmailForm() {
+  document.getElementById('change-email-form').classList.toggle('hidden');
 }
 
-.container {
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 300px;
-  text-align: center;
+function showPasswordForm() {
+  document.getElementById('change-password-form').classList.toggle('hidden');
 }
 
-h2 {
-  margin-bottom: 20px;
+function changeEmail() {
+  const email = document.getElementById('new-email').value;
+  fetch(`${API_BASE}/user/changeEmail`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({ email })
+  }).then(res => res.ok ? alert('Email updated') : alert('Failed'));
 }
 
-input[type="email"],
-input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+function changePassword() {
+  const password = document.getElementById('new-password').value;
+  fetch(`${API_BASE}/user/changePassword`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({ password })
+  }).then(res => res.ok ? alert('Password updated') : alert('Failed'));
+}  */
+
+
+function loadTasks() {
+  fetch(`${API_BASE}/tasks`, { headers })
+    .then(res => res.json())
+    .then(tasks => {
+      const list = document.getElementById('taskList');
+      list.innerHTML = '';
+      tasks.forEach(task => {
+        const item = document.createElement('li');
+        item.innerHTML = `
+          <span class="task-content ${task.status}">${task.content}</span>
+          <button onclick="markAsCompleted('${task.id}')">✅</button>
+          <button onclick="markInProgress('${task.id}')">⏳</button>
+          <button onclick="editTask('${task.id}', '${task.content}')">✏️</button>
+          <button onclick="deleteTask('${task.id}')">🗑️</button>
+        `;
+        list.appendChild(item);
+      });
+    });
 }
 
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  border: none;
-  color: white;
-  font-weight: bold;
-  border-radius: 5px;
-  cursor: pointer;
+function deleteTask(id) {
+  fetch(`${API_BASE}/tasks/${id}`, {
+    method: 'DELETE',
+    headers
+  }).then(() => loadTasks());
 }
 
-button:hover {
-  background-color: #0056b3;
+function markAsCompleted(id) {
+  fetch(`${API_BASE}/tasks/${id}/complete`, {
+    method: 'PUT',
+    headers
+  }).then(() => loadTasks());
 }
 
-p {
-  margin-top: 15px;
+function markInProgress(id) {
+  fetch(`${API_BASE}/tasks/${id}/progress`, {
+    method: 'PUT',
+    headers
+  }).then(() => loadTasks());
 }
 
-a {
-  color: #007bff;
-  text-decoration: none;
+function editTask(id, oldContent) {
+  const newContent = prompt('Edit task:', oldContent);
+  if (!newContent || newContent === oldContent) return;
+
+  fetch(`${API_BASE}/tasks/${id}`, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({ content: newContent })
+  }).then(() => loadTasks());
 }
-a:hover {
-  text-decoration: underline;
+
+function searchTasks() {
+  const term = document.getElementById('searchTask').value.toLowerCase();
+  const listItems = document.querySelectorAll('#taskList li');
+  listItems.forEach(li => {
+    const text = li.textContent.toLowerCase();
+    li.style.display = text.includes(term) ? 'block' : 'none';
+  });
 }

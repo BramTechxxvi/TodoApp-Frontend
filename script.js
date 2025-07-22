@@ -1,4 +1,37 @@
-const URL = "http://localhost:8080/tasks";
+const API_BASE = "http://localhost:8080";
+
+const token = localStorage.getItem("token");
+if (!token) window.location.href = "login.html";
+
+const headers = {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${token}`
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadTasks();
+});
+
+const logout = ()=> {
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
+};
+
+function addTask() {
+    const input = document.getElementById("add-task");
+    const task = input.value.trim();
+    if (!task) return;
+    fetch(`${APP_URL}`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(task)
+    })
+    .then(res => res.json())
+    .then(() => {
+        input.value = " ";
+        loadTasks();
+    })
+}
 
 function fetchTasks() {
     fetch(URL)
@@ -19,30 +52,7 @@ function fetchTasks() {
         });
 }
 
-function addTask() {
-    const input = document.getElementById("add-task");
-    const task = { title: input.value };
-    fetch(URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(task)
-    })
-        .then(() => {
-            input.value = "";
-            fetchTasks();
-        });
-}
 
-// function addTask() {
-//     const taskInput = document.getElementById("addTask");
-//     const text = taskInput.value.trim();
-//     if (text !== "") {
-//         tasks.push({text: text, completed: false});
-//         saveTask();
-//         displayTasks()
-//         taskInput.value = "";
-//     }
-// }
 
 
 
