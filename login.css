@@ -7,7 +7,7 @@
 body{
     margin: 0 auto;
     max-width: 100vh;
-    background: linear-gradient(to bottom right, #e0f2ff, #f0f7ff);
+    background: url('images/todo-logo.jpg');
     background-size: cover;
     background-position: center;
 }
@@ -23,7 +23,7 @@ body{
 }
 
 .loginBox {
-  background-color: #d1e3ff;
+  background: transparent;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   padding: 30px;
   border-radius: 10px;
@@ -31,7 +31,6 @@ body{
   display: flex;
   flex-direction: column;
 }
-
 
 
 .login-Logo {
@@ -76,6 +75,11 @@ body{
     font-weight: 600;
 }
 
+.forgot-password a:hover{
+    text-decoration: none;
+    color: black;
+}
+
 .submit {
     padding: 10px 0;
     display: flex;
@@ -106,10 +110,19 @@ body{
 }
 .signUp p{
     font-size: 17px;
-    font-weight: 500;
+    font-weight: bold;
     color: #fff;
 }
 
 .signUp a{
     text-decoration: none;
+    color: #1a5390;
+    font-weight: bold;
 }
+
+.signUp a:hover{
+    text-decoration: none;
+    color: black;
+}
+
+
