@@ -23,7 +23,7 @@ function addTask() {
     const input = document.getElementById("add-task");
     const task = input.value.trim();
     if (!task) return;
-    fetch(`${APP_URL}`, {
+    fetch(`${TASK_API}/add`, {
         method: "POST",
         headers,
         body: JSON.stringify(task)
@@ -35,30 +35,16 @@ function addTask() {
     })
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function deleteTask(id) {
-    fetch(`${URL}/delete/${id}`, { method: "DELETE" })
-        .then(() => fetchTasks());
+    fetch(`${TASK_API}/delete/${id}`, {
+        method: "DELETE",
+        headers
+    }).then(()=> loadTasks())
 }
 
-function toggleComplete(id, isComplete) {
-    const endpoint = isComplete ? `${URL}/${id}/complete` : `${URL}/${id}/in-progress`;
-    fetch(endpoint, { method: "PATCH" })
-        .then(() => fetchTasks());
-}
 
-document.addEventListener("DOMContentLoaded", fetchTasks);
+// function toggleComplete(id, isComplete) {
+//     const endpoint = isComplete ? `${URL}/${id}/complete` : `${URL}/${id}/in-progress`;
+//     fetch(endpoint, { method: "PATCH" })
+//         .then(() => fetchTasks());
+// }

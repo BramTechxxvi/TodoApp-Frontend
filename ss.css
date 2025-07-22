@@ -67,16 +67,7 @@ function markInProgress(id) {
   }).then(() => loadTasks());
 }
 
-function editTask(id, oldContent) {
-  const newContent = prompt('Edit task:', oldContent);
-  if (!newContent || newContent === oldContent) return;
 
-  fetch(`${API_BASE}/tasks/${id}`, {
-    method: 'PUT',
-    headers,
-    body: JSON.stringify({ content: newContent })
-  }).then(() => loadTasks());
-}
 
 function searchTasks() {
   const term = document.getElementById('searchTask').value.toLowerCase();

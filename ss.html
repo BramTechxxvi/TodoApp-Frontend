@@ -38,29 +38,8 @@ function changePassword() {
     }).then(() => alert('Password updated.'));
 }
 
-function fetchTasks() {
-    fetch(`${BASE_URL}/api/task/getAllTasks/${USER_ID}`)
-        .then(res => res.json())
-        .then(data => {
-            taskList.innerHTML = '';
-            data.forEach(task => renderTask(task));
-        });
-}
 
-function addTask() {
-    const text = addInput.value.trim();
-    if (!text) return;
-    fetch(`${BASE_URL}/api/task/add`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: USER_ID, title: text })
-    })
-    .then(res => res.json())
-    .then(task => {
-        renderTask(task);
-        addInput.value = '';
-    });
-}
+
 
 function renderTask(task) {
     const li = document.createElement('li');
@@ -75,10 +54,14 @@ function renderTask(task) {
     taskList.appendChild(li);
 }
 
-function deleteTask(id) {
-    fetch(`${BASE_URL}/api/task/delete/${id}`, { method: 'DELETE' })
-        .then(() => document.querySelector(`li[data-id='${id}']`).remove());
-}
+function fetchTasks() {
+    fetch(`${BASE_URL}/api/task/getAllTasks/${USER_ID}`)
+        .then(res => res.json())
+        .then(data => {
+            taskList.innerHTML = '';
+            data.forEach(task => renderTask(task));
+        });
+}}
 
 
 function updateStatus(id, status) {
