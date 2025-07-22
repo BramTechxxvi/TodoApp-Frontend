@@ -38,6 +38,15 @@ body{
     margin-bottom: 20px;
 }
 
-.signUp-Box {
+.signUp-main {
+    padding: 15px 0
+}
 
+.signUp-main input{
+    width: 250px;
+    height: 45px;
+    border: none;
+    outline: none;
+    color: #000;
+    border-radius: 5px;
 }
