@@ -22,7 +22,7 @@ body{
     margin: 50px auto;
 }
 
-.signupBox {
+.signUp-Box {
     background: transparent;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     padding: 30px;
@@ -32,8 +32,12 @@ body{
     flex-direction: column;
 }
 
-.signup-Logo {
+.signUp-Logo {
     font-size: 60px;
     color: #1a5390; 
     margin-bottom: 20px;
+}
+
+.signUp-Box {
+
 }
