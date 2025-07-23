@@ -8,9 +8,8 @@ document.getElementById("submit").addEventListener("click", async(event)=> {
     const lastName = document.getElementById("lastName").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
-    const confirmPassword = getElementById("").value;
-    const checkbox = getElementById("").checked;
-    // const password = getElementById("").value.trim();
+    const confirmPassword = document.getElementById("").value;
+    const checkbox = document.getElementById("").checked;
 
     let validCredentials = firstName || lastName || email || password || confirmPassword || checkbox;
     if(!validCredentials) {
@@ -38,36 +37,15 @@ document.getElementById("submit").addEventListener("click", async(event)=> {
         });
 
         if (!response.ok) {
-
-            throw new Error("Signup failed");
+            const errorText = await response.text();
+            throw new Error(`Error: ${errorText}`);
         }
         const data = await response.json();
         localStorage.setItem("token", data.token);
         window.location.href = "index.html";
     }   catch (err) {
+            console.error("Signup failed:", err);
             alert("Signup failed. Please try again.");
-            console.error(err);
-            return;
         }
-    }
 
 })
-
-
-
-//         if (!response.ok) {
-//             const errorText = await response.text();
-//             throw new Error(errorText);
-//         }
-
-//         const data = await response.json();
-//         localStorage.setItem("token", data.token);
-//         window.location.href = "dashboard.html";
-//     } catch (error) {
-//         console.error("Signup failed:", error);
-//         alert("Signup failed. Please try again.");
-//     }
-// });
-
-
-
