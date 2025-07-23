@@ -11,33 +11,20 @@ document.getElementById("submit").addEventListener("click", async()=> {
 
     try {
         const response = await fetch(`${USER_API}/login`, {
-     
-
-
-
-
-
-
-    if (!email || !password) {
-        alert("Please enter both email and password.");
-        return;
-    }
-
-    try {
-        const res = await fetch(`${USER_API}/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password })
-        });
-
-        if (!res.ok) throw new Error("Login failed");
-
-        const data = await res.json();
+        })
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Error: ${errorText}`);
+        }
+        
+        const data = await response.json();
         localStorage.setItem("token", data.token);
-        window.location.href = "dashboard.html";  // Redirect to your dashboard
+        window.location.href = "index.html";  // Redirect to your main page
     } catch (err) {
-        alert("Invalid credentials or server error.");
-        console.error(err);
+        alert("Login failed. Please check your credentials.");
+        console.error("Login error:", err);
     }
 });
-</script>

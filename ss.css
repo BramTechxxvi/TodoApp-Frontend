@@ -28,7 +28,7 @@ function changePassword() {
 
 
 
-function markAsCompleted(id) {
+/* function markAsCompleted(id) {
   fetch(`${API_BASE}/tasks/${id}/complete`, {
     method: 'PUT',
     headers
@@ -51,4 +51,4 @@ function searchTasks() {
     const text = li.textContent.toLowerCase();
     li.style.display = text.includes(term) ? 'block' : 'none';
   });
-}
+} */
