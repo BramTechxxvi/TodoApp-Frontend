@@ -26,25 +26,6 @@ function changePassword() {
 }  */
 
 
-function loadTasks() {
-  fetch(`${API_BASE}/tasks`, { headers })
-    .then(res => res.json())
-    .then(tasks => {
-      const list = document.getElementById('taskList');
-      list.innerHTML = '';
-      tasks.forEach(task => {
-        const item = document.createElement('li');
-        item.innerHTML = `
-          <span class="task-content ${task.status}">${task.content}</span>
-          <button onclick="markAsCompleted('${task.id}')">✅</button>
-          <button onclick="markInProgress('${task.id}')">⏳</button>
-          <button onclick="editTask('${task.id}', '${task.content}')">✏️</button>
-          <button onclick="deleteTask('${task.id}')">🗑️</button>
-        `;
-        list.appendChild(item);
-      });
-    });
-}
 
 
 function markAsCompleted(id) {

@@ -1,9 +1,4 @@
-// Replace BASE_URL with your Spring Boot backend base path
-const BASE_URL = 'http://localhost:8080'; 
-const USER_ID = localStorage.getItem('userId'); // assuming user ID is stored in localStorage
 
-const taskList = document.getElementById('taskList');
-const addInput = document.getElementById('add-task');
 
 window.onload = () => {
     loadUserEmail();
@@ -38,30 +33,4 @@ function changePassword() {
     }).then(() => alert('Password updated.'));
 }
 
-
-
-
-function renderTask(task) {
-    const li = document.createElement('li');
-    li.dataset.id = task.id;
-    li.innerHTML = `
-        <span class="task-title">${task.title}</span>
-        <span class="status-badge ${task.status}">${task.status === 'completed' ? '✅ Completed' : '⏳ In Progress'}</span>
-        <button onclick="markAsCompleted('${task.id}')">Mark Done</button>
-        <button onclick="markAsInProgress('${task.id}')">Mark In Progress</button>
-        <button onclick="deleteTask('${task.id}')">Delete</button>
-    `;
-    taskList.appendChild(li);
-}
-
-
-
-function updateStatus(id, status) {
-    fetch(`${BASE_URL}/api/task/updateStatus/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status })
-    })
-    .then(() => fetchTasks());
-}
 
