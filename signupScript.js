@@ -29,10 +29,26 @@ document.getElementById("submit").addEventListener("click", async(event)=> {
         alert("Passwords do not match.");
         return;
     }
+
+    try {
+        const response = await fetch(`${USER_API}/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ firstName, lastName, email, password })
+        });
+
+        if (!response.ok) throw new Error("Signup failed");
+        catch (err) {
+            alert("Signup failed. Please try again.");
+            console.error(err);
+            return;
+        }
+    }
+
 })
 
     try {
-        const res = await fetch(`${USER_API}/signup`, {
+        const res = await fetch(`${USER_API}/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ firstName, lastName, email, password })
