@@ -66,10 +66,15 @@ function loadTasks() {
             li.innerHTML = `
             <span class="task-content ${task.status}">${task.content}</span>
     
-            <button onclick="updateStatus('${task.id}', '${task.content}')"></button>
-            <button onclick="deleteTask('${task.id}')
+            <button onclick="updateTask('${task.id}', '${task.content}')">Edit task</button>
+            <button onclick="deleteTask('${task.id}')">Delete</button>
+            <button>Completed</button>
+            <button>In Progress</button>
             `;
-    })
+            taskList.appendChild(li);
+        });
+    });
+}
 
 
 
@@ -79,17 +84,3 @@ function loadTasks() {
 //         .then(() => fetchTasks());
 // }
 
-//   
-//       tasks.forEach(task => {
-//         const item = document.createElement('li');
-//         item.innerHTML = `
-//           <span class="task-content ${task.status}">${task.content}</span>
-//           <button onclick="markAsCompleted('${task.id}')">✅</button>
-//           <button onclick="markInProgress('${task.id}')">⏳</button>
-//           <button onclick="editTask('${task.id}', '${task.content}')">✏️</button>
-//           <button onclick="deleteTask('${task.id}')">🗑️</button>
-//         `;
-//         list.appendChild(item);
-//       });
-//     });
-// }
