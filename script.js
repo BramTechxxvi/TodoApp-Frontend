@@ -21,12 +21,12 @@ const logout = ()=> {
 
 function addTask() {
     const input = document.getElementById("add-task");
-    const task = input.value.trim();
+    const content = input.value.trim();
     if (!task) return;
     fetch(`${TASK_API}/add`, {
         method: "POST",
         headers,
-        body: JSON.stringify(task)
+        body: JSON.stringify(content)
     })
     .then(res => res.json())
     .then(() => {
@@ -42,6 +42,24 @@ function deleteTask(id) {
     }).then(()=> loadTasks())
 }
 
+function updateTask(id, oldContent) {
+    const newContent = prompt(`Edit task: `, oldContent)
+    if(!newContent || newContent === oldContent) return;
+
+    fetch(`${TASK_API}/update/ ${id}`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify()
+    })
+}
+
+
+//   fetch(`${API_BASE}/tasks/${id}`, {
+//     method: 'PUT',
+//     headers,
+//     body: JSON.stringify({ content: newContent })
+//   }).then(() => loadTasks());
+// }
 
 // function toggleComplete(id, isComplete) {
 //     const endpoint = isComplete ? `${URL}/${id}/complete` : `${URL}/${id}/in-progress`;
