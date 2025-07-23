@@ -7,7 +7,7 @@ document.getElementById("submit").addEventListener("click", async(event)=> {
     const firstName = document.getElementById("firstName").value.trim();
     const lastName = document.getElementById("lastName").value.trim();
     const email = document.getElementById("email").value.trim();
-    const password = getElementById("password").value;
+    const password = document.getElementById("password").value;
     const confirmPassword = getElementById("").value;
     const checkbox = getElementById("").checked;
     // const password = getElementById("").value.trim();
@@ -29,7 +29,7 @@ document.getElementById("submit").addEventListener("click", async(event)=> {
         alert("Passwords do not match.");
         return;
     }
-
+    
     try {
         const response = await fetch(`${USER_API}/register`, {
             method: "POST",
@@ -37,8 +37,14 @@ document.getElementById("submit").addEventListener("click", async(event)=> {
             body: JSON.stringify({ firstName, lastName, email, password })
         });
 
-        if (!response.ok) throw new Error("Signup failed");
-        catch (err) {
+        if (!response.ok) {
+
+            throw new Error("Signup failed");
+        }
+        const data = await response.json();
+        localStorage.setItem("token", data.token);
+        window.location.href = "index.html";
+    }   catch (err) {
             alert("Signup failed. Please try again.");
             console.error(err);
             return;
@@ -47,21 +53,21 @@ document.getElementById("submit").addEventListener("click", async(event)=> {
 
 })
 
-    try {
-        const res = await fetch(`${USER_API}/register`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ firstName, lastName, email, password })
-        });
 
-        if (!res.ok) throw new Error("Signup failed");
 
-        const data = await res.json();
-        localStorage.setItem("token", data.token);
-        window.location.href = "dashboard.html";
-    } catch (err) {
-        alert("Signup failed. Please try again.");
-        console.error(err);
-    }
-}); */}
-</script>
+//         if (!response.ok) {
+//             const errorText = await response.text();
+//             throw new Error(errorText);
+//         }
+
+//         const data = await response.json();
+//         localStorage.setItem("token", data.token);
+//         window.location.href = "dashboard.html";
+//     } catch (error) {
+//         console.error("Signup failed:", error);
+//         alert("Signup failed. Please try again.");
+//     }
+// });
+
+
+
