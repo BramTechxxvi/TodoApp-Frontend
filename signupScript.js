@@ -8,8 +8,8 @@ document.getElementById("submit").addEventListener("click", async(event)=> {
     const lastName = document.getElementById("lastName").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("").value;
-    const checkbox = document.getElementById("").checked;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    const checkbox = document.getElementById("checkbox").checked;
 
     let validCredentials = firstName || lastName || email || password || confirmPassword || checkbox;
     if(!validCredentials) {
