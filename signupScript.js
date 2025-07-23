@@ -5,7 +5,7 @@ document.getElementById("submit").addEventListener("click", async(event)=> {
     event.preventDefault();
 
     const firstName = document.getElementById("firstName").value.trim();
-    const lastname = document.getElementById("lastName").value.trim();
+    const lastName = document.getElementById("lastName").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = getElementById("password").value;
     const confirmPassword = getElementById("").value;
@@ -13,27 +13,23 @@ document.getElementById("submit").addEventListener("click", async(event)=> {
     // const password = getElementById("").value.trim();
 
     let validCredentials = firstName || lastName || email || password || confirmPassword || checkbox;
-    if(!firstName ||)
-})
-
-
-
-    const firstName = document.getElementById("firstName").value.trim();
-    const lastName = document.getElementById("lastName").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
-    const checkbox = document.getElementById("checkbox").checked;
-
-    if ( !email || !password || !confirmPassword || !checkbox) {
+    if(!validCredentials) {
         alert("Please fill out all fields and accept the terms.");
         return;
     }
 
-    if (password !== confirmPassword) {
+    let validNames = /^[a-zA-Z]+$/.test(firstName) || !/^[a-zA-Z]+$/.test(lastName);
+    if (!validNames) {
+        alert("First and last names must contain only letters.");
+        return;
+    }
+
+    let samePassword = password === confirmPassword;
+    if (!samePassword) {
         alert("Passwords do not match.");
         return;
     }
+})
 
     try {
         const res = await fetch(`${USER_API}/signup`, {
