@@ -54,10 +54,42 @@ function updateTask(id, oldContent) {
     }).then(() =>  loadTasks());
 }
 
+function loadTasks() {
+    fetch(`${TASK_API}/getAllTasks`, { headers })
+    .then(res=> res.json())
+    .then(tasks=> {
+        const taskList = document.getElementById("taskList");
+        taskList.innerHTML = "";
+        tasks.forEach(task => {
+            const li = document.createElement("li");
+            li.taskId = task.id;
+            li.innerHTML = `
+            <span class="task-content ${task.status}">${task.content}</span>
+    
+            <button onclick="updateStatus('${task.id}', '${task.content}')"></button>
+            <button onclick="deleteTask('${task.id}')
+            `;
+    })
+
 
 
 // function toggleComplete(id, isComplete) {
 //     const endpoint = isComplete ? `${URL}/${id}/complete` : `${URL}/${id}/in-progress`;
 //     fetch(endpoint, { method: "PATCH" })
 //         .then(() => fetchTasks());
+// }
+
+//   
+//       tasks.forEach(task => {
+//         const item = document.createElement('li');
+//         item.innerHTML = `
+//           <span class="task-content ${task.status}">${task.content}</span>
+//           <button onclick="markAsCompleted('${task.id}')">✅</button>
+//           <button onclick="markInProgress('${task.id}')">⏳</button>
+//           <button onclick="editTask('${task.id}', '${task.content}')">✏️</button>
+//           <button onclick="deleteTask('${task.id}')">🗑️</button>
+//         `;
+//         list.appendChild(item);
+//       });
+//     });
 // }

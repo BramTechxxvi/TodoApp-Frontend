@@ -54,14 +54,6 @@ function renderTask(task) {
     taskList.appendChild(li);
 }
 
-function fetchTasks() {
-    fetch(`${BASE_URL}/api/task/getAllTasks/${USER_ID}`)
-        .then(res => res.json())
-        .then(data => {
-            taskList.innerHTML = '';
-            data.forEach(task => renderTask(task));
-        });
-}}
 
 
 function updateStatus(id, status) {
