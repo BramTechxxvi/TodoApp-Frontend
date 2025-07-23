@@ -46,12 +46,6 @@ function loadTasks() {
     });
 }
 
-function deleteTask(id) {
-  fetch(`${API_BASE}/tasks/${id}`, {
-    method: 'DELETE',
-    headers
-  }).then(() => loadTasks());
-}
 
 function markAsCompleted(id) {
   fetch(`${API_BASE}/tasks/${id}/complete`, {

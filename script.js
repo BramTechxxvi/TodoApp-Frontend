@@ -22,17 +22,18 @@ const logout = ()=> {
 function addTask() {
     const input = document.getElementById("add-task");
     const content = input.value.trim();
-    if (!task) return;
+    if (!content) return;
     fetch(`${TASK_API}/add`, {
         method: "POST",
         headers,
-        body: JSON.stringify(content)
+        body: JSON.stringify({content})
     })
     .then(res => res.json())
     .then(() => {
-        input.value = " ";
+        input.value = "";
         loadTasks();
     })
+    .catch(err => console.error("Failed to add task:", err));
 }
 
 function deleteTask(id) {
@@ -43,23 +44,17 @@ function deleteTask(id) {
 }
 
 function updateTask(id, oldContent) {
-    const newContent = prompt(`Edit task: `, oldContent)
+    const input = prompt(`Edit task: `, oldContent)
+    const newContent = input?.trim();
     if(!newContent || newContent === oldContent) return;
-
-    fetch(`${TASK_API}/update/ ${id}`, {
+    fetch(`${TASK_API}/update/${id}`, {
         method: 'PUT',
         headers,
-        body: JSON.stringify()
-    })
+        body: JSON.stringify({ content: newContent })
+    }).then(() =>  loadTasks());
 }
 
 
-//   fetch(`${API_BASE}/tasks/${id}`, {
-//     method: 'PUT',
-//     headers,
-//     body: JSON.stringify({ content: newContent })
-//   }).then(() => loadTasks());
-// }
 
 // function toggleComplete(id, isComplete) {
 //     const endpoint = isComplete ? `${URL}/${id}/complete` : `${URL}/${id}/in-progress`;
