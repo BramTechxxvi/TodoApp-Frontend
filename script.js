@@ -26,10 +26,13 @@ function addTask() {
     fetch(`${TASK_API}/add`, {
         method: "POST",
         headers,
-        body: JSON.stringify({content})
+        body: JSON.stringify({
+            title
+        })
     })
     .then(res => res.json())
-    .then(() => {
+    .then((data) => {
+        console.log("Task added: ", data)
         input.value = "";
         loadTasks();
     })
@@ -62,7 +65,7 @@ function loadTasks() {
         taskList.innerHTML = "";
         tasks.forEach(task => {
             const li = document.createElement("li");
-            li.taskId = task.id;
+            li.className = "task"
             li.innerHTML = `
             <span class="task-content ${task.status}">${task.content}</span>
     
@@ -75,6 +78,22 @@ function loadTasks() {
         });
     });
 }
+
+
+        tasks.forEach(task => {
+            const li = document.createElement("li");
+            li.className = "task"; // ← You need to add this!
+            li.innerHTML = `
+                <span class="task-content ${task.status}">${task.content}</span>
+                <button onclick="updateTask('${task.id}', '${task.content}')">Edit</button>
+                <button onclick="deleteTask('${task.id}')">Delete</button>
+            `;
+            taskList.appendChild(li);
+        });
+    })
+    .catch(err => console.error("Failed to load tasks:", err));
+}
+
 
 
 
