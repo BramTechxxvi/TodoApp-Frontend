@@ -29,9 +29,15 @@
         <h2>Add a new taskj</h2>
 
         <div class="add-task">
-            <input type="text" id="add-task" placeholder="Add New To-Do...">
+            <input type="text" id="task-title" placeholder="Enter title..." onkeydown="handleTitleKey(event)">
+
+            <div class="task-description">
+                
+            </div>
             <button onclick="addTask()">Add</button>
         </div>
+
+
         
         <ul id="taskList">
 

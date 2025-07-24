@@ -90,7 +90,8 @@ function loadTasks() {
             `;
             taskList.appendChild(li);
         });
-    })
+        })
+        
     .catch(err => console.error("Failed to load tasks:", err));
 }
 
@@ -103,3 +104,18 @@ function loadTasks() {
 //         .then(() => fetchTasks());
 // }
 
+
+
+<div class="add-task">
+    <input type="text" id="task-title" placeholder="Enter task title..." onkeydown="handleTitleKey(event)">
+    
+    <div id="description-section" class="hidden">
+        <input type="text" id="task-description" placeholder="Enter task description...">
+        <select id="task-status">
+            <option value="PENDING">Pending</option>
+            <option value="IN_PROGRESS">In Progress</option>
+            <option value="COMPLETED">Completed</option>
+        </select>
+        <button onclick="addTask()">Add Task</button>
+    </div>
+</div>
