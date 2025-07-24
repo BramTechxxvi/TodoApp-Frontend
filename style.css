@@ -72,7 +72,7 @@ body {
 .add-task button:hover {
     background-color: #0056b3;
 }
-/* 
+
 #description-section {
     overflow: hidden;
     max-height: 0;
@@ -88,17 +88,8 @@ body {
 
 .hidden {
     display: none;
-} */
+} 
 
-
-
-
-
-
-
-
-
-/* Task List */
 #taskList {
     list-style: none;
 }

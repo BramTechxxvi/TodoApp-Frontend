@@ -107,7 +107,9 @@ function handleTitleKey(event) {
     }
 }
 
-
+function markInProgress(id) {
+    fetch(`${TASK_API}/`)
+}
 
 
 // function toggleComplete(id, isComplete) {
@@ -115,3 +117,21 @@ function handleTitleKey(event) {
 //     fetch(endpoint, { method: "PATCH" })
 //         .then(() => fetchTasks());
 // }
+
+
+
+function markInProgress(id) {
+    fetch(`${TASK_API}/${id}/in-progress`, {
+        method: "PATCH",
+        headers,
+        body: ({taskId: id, status: "IN_PROGRESS"})
+    }).then(() => loadTasks());
+}
+
+function markComplete(id) {
+    fetch(`${TASK_API}/status/${id}/complete`, {
+        method: "PATCH",
+        headers,
+        body: ({taskId: id, status: "COMPLETED"})
+    }).then(() => loadTasks());
+}
