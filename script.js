@@ -20,20 +20,30 @@ const logout = ()=> {
 };
 
 function addTask() {
-    const input = document.getElementById("add-task");
-    const content = input.value.trim();
-    if (!content) return;
+    const title = document.getElementById("task-title").value.trim();
+    const description =document.getElementById("task-description").value.trim();
+    const status = document.getElementById("task-status").value;
+
+    if (!title || !description) {
+        alert("Fill in both fields.")
+        return;
+    }
     fetch(`${TASK_API}/add`, {
         method: "POST",
         headers,
-        body: JSON.stringify({
-            title
-        })
+        body: JSON.stringify({ title, description, status })
     })
-    .then(res => res.json())
+    .then(response => {
+        if(!response.ok) return response.text().then(message => {throw new Error(message); });
+        return response.json(); 
+    })
     .then((data) => {
         console.log("Task added: ", data)
-        input.value = "";
+        document.getElementById("task-title").value = "";
+        document.getElementsById("task-description").value = "";
+        document.getElementById("task-status").value ="";
+        document.getElementsById("description-section").classList.add("hidden");
+    
         loadTasks();
     })
     .catch(err => console.error("Failed to add task:", err));
@@ -77,25 +87,18 @@ function loadTasks() {
             taskList.appendChild(li);
         });
     });
+    .catch(err => console.error("Failed to load tasks: ", err))
 }
 
-
-        tasks.forEach(task => {
-            const li = document.createElement("li");
-            li.className = "task"; // ← You need to add this!
-            li.innerHTML = `
-                <span class="task-content ${task.status}">${task.content}</span>
-                <button onclick="updateTask('${task.id}', '${task.content}')">Edit</button>
-                <button onclick="deleteTask('${task.id}')">Delete</button>
-            `;
-            taskList.appendChild(li);
-        });
-        })
-        
-    .catch(err => console.error("Failed to load tasks:", err));
+function handleTitleKey(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        const title = event.target.value.trim();
+        if (title) {
+            document.getElementById("description-section").classList.remove("hidden");
+        }
+    }
 }
-
-
 
 
 // function toggleComplete(id, isComplete) {
@@ -103,19 +106,3 @@ function loadTasks() {
 //     fetch(endpoint, { method: "PATCH" })
 //         .then(() => fetchTasks());
 // }
-
-
-
-<div class="add-task">
-    <input type="text" id="task-title" placeholder="Enter task title..." onkeydown="handleTitleKey(event)">
-    
-    <div id="description-section" class="hidden">
-        <input type="text" id="task-description" placeholder="Enter task description...">
-        <select id="task-status">
-            <option value="PENDING">Pending</option>
-            <option value="IN_PROGRESS">In Progress</option>
-            <option value="COMPLETED">Completed</option>
-        </select>
-        <button onclick="addTask()">Add Task</button>
-    </div>
-</div>
