@@ -40,9 +40,9 @@ function addTask() {
     .then((data) => {
         console.log("Task added: ", data)
         document.getElementById("task-title").value = "";
-        document.getElementsById("task-description").value = "";
+        document.getElementById("task-description").value = "";
         document.getElementById("task-status").value ="";
-        document.getElementsById("description-section").classList.add("hidden");
+        document.getElementById("description-section").classList.add("hidden");
     
         loadTasks();
     })
@@ -56,37 +56,44 @@ function deleteTask(id) {
     }).then(()=> loadTasks())
 }
 
-function updateTask(id, oldContent) {
-    const input = prompt(`Edit task: `, oldContent)
-    const newContent = input?.trim();
-    if(!newContent || newContent === oldContent) return;
+function updateTask(id, oldTitle) {
+    const newTitle = prompt(`Edit task: `, oldTitle)
+    if(!newTitle || newTitle === oldTitle) return;
     fetch(`${TASK_API}/update/${id}`, {
         method: 'PUT',
         headers,
-        body: JSON.stringify({ content: newContent })
+        body: JSON.stringify({ title: newTitle })
     }).then(() =>  loadTasks());
 }
 
+
 function loadTasks() {
     fetch(`${TASK_API}/getAllTasks`, { headers })
-    .then(res=> res.json())
+    .then(res=> {
+        if (!res.ok) throw new Error("Failed to fetch tasks");
+        return res.json();
+    })
     .then(tasks=> {
         const taskList = document.getElementById("taskList");
         taskList.innerHTML = "";
         tasks.forEach(task => {
             const li = document.createElement("li");
-            li.className = "task"
+            li.className = "task-box"
             li.innerHTML = `
-            <span class="task-content ${task.status}">${task.content}</span>
-    
-            <button onclick="updateTask('${task.id}', '${task.content}')">Edit task</button>
-            <button onclick="deleteTask('${task.id}')">Delete</button>
-            <button>Completed</button>
-            <button>In Progress</button>
+            <div>
+                <div>
+                    <span class="task-title ${task.status}">${task.title}</span>
+                </div>
+                <div>
+                    <button onclick="deleteTask('${task.id}')">Delete</button>
+                    <button>Completed</button>
+                    <button>In Progress</button>
+                </div>
+            </div>
             `;
             taskList.appendChild(li);
         });
-    });
+    })
     .catch(err => console.error("Failed to load tasks: ", err))
 }
 
@@ -99,6 +106,8 @@ function handleTitleKey(event) {
         }
     }
 }
+
+
 
 
 // function toggleComplete(id, isComplete) {

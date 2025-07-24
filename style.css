@@ -72,6 +72,31 @@ body {
 .add-task button:hover {
     background-color: #0056b3;
 }
+/* 
+#description-section {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+}
+
+#description-section:not(.hidden) {
+    max-height: 200px;
+    opacity: 1;
+    margin-top: 10px;
+}
+
+.hidden {
+    display: none;
+} */
+
+
+
+
+
+
+
+
 
 /* Task List */
 #taskList {
