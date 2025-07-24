@@ -12,19 +12,21 @@ document.getElementById("submit").addEventListener("click", async()=> {
     try {
         const response = await fetch(`${USER_API}/login`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password })
-        })
+            headers : { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+            credentials: "include"
+        });
+
         if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Error: ${errorText}`);
-        }
+            const errorData = await response.text();
+            throw new Error(errorData);  
+        }       
         
         const data = await response.json();
         localStorage.setItem("token", data.token);
-        window.location.href = "index.html";  // Redirect to your main page
+        window.location.href = "index.html"; 
     } catch (err) {
-        alert("Login failed. Please check your credentials.");
-        console.error("Login error:", err);
+        alert("Error: " + err.message);
+        console.error("Login failed:", err);
     }
 });
