@@ -13,13 +13,12 @@ document.getElementById("submit").addEventListener("click", async()=> {
         const response = await fetch(`${USER_API}/login`, {
             method: "POST",
             headers : { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
-            credentials: "include"
+            body: JSON.stringify({ email, password })
         });
 
         if (!response.ok) {
             const errorData = await response.text();
-            throw new Error(errorData);  
+            throw new Error(errorData);
         }       
         
         const data = await response.json();
