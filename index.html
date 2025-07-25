@@ -20,7 +20,9 @@
         </div>
         <div class="dashboard-actions">
             <button onclick="showEmailForm()">Change Email</button>
-            <button onclick="showProfile()">Profile</button>
+            <div class="profile-icon">
+                <ion-icon name="person-outline"></ion-icon>
+            </div>
             <button onclick="logout()">Logout</button>
         </div>
     </header>   
@@ -40,8 +42,8 @@
                 <label for="task-status">Status:</label>
                 <select id="task-status">
                     <option value="PENDING">Pending</option>
-                    <option value="PENDING">In Progress</option>
-                    <option value="PENDING">Completed</option>
+                    <option value="IN_PROGRESS">In Progress</option>
+                    <option value="COMPLETED">Completed</option>
                 </select>
             </div>
             <button onclick="addTask()">Add</button>
