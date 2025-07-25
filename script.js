@@ -20,6 +20,24 @@ const logout = ()=> {
     window.location.href = "login.html";
 };
 
+function toggleProfileSideBar() {
+    const sideBar = document.getElementById("profile-sidebar");
+    sideBar.classList.toggle("hidden");
+}
+
+// function loadUserProfile() {
+//     fetch(`${USER_API}/profile`, { headers })
+//     .then(res => {
+//         if (!res.ok) throw new Error("Failed to fetch user profile");
+//         return res.json();
+//     })
+//     .then(user => {
+//         document.getElementById("user-name").textContent = user.name;
+//         document.getElementById("user-email").textContent = user.email;
+//     })
+//     .catch(err => console.error("Failed to load user profile: ", err));
+// }
+
 function addTask() {
     const title = document.getElementById("task-title").value.trim();
     const description =document.getElementById("task-description").value.trim();
@@ -35,14 +53,16 @@ function addTask() {
         body: JSON.stringify({ title, description, status })
     })
     .then(response => {
-        if(!response.ok) return response.text().then(message => {throw new Error(message); });
+        if(!response.ok) return response.text().then(message => {
+            throw new Error(message);
+        });
         return response.json(); 
     })
     .then((data) => {
         console.log("Task added: ", data)
         document.getElementById("task-title").value = "";
         document.getElementById("task-description").value = "";
-        document.getElementById("task-status").value ="";
+        document.getElementById("task-status").value ="PENDING";
         document.getElementById("description-section").classList.add("hidden");
     
         loadTasks();
@@ -54,7 +74,9 @@ function deleteTask(id) {
     fetch(`${TASK_API}/delete/${id}`, {
         method: "DELETE",
         headers
-    }).then(()=> loadTasks())
+    })
+    .then(()=> loadTasks())
+    .catch(err => console.error("Failed to delete task: ", err));
 }
 
 function updateTask(id, oldTitle) {
@@ -67,6 +89,17 @@ function updateTask(id, oldTitle) {
     }).then(() =>  loadTasks());
 }
 
+function markComplete(id) {
+    fetch(`${TASK_API}/status/${id}/complete`, {
+        method: "PATCH",
+        headers,
+        body: ({taskId: id, status: "COMPLETED"})
+    })
+    .then(() => loadTasks())
+    .catch((err) => {
+        console.error("Failed to mark task as complete: ", err)
+    });
+}
 
 function loadTasks() {
     fetch(`${TASK_API}/getAllTasks`, { headers })
@@ -114,10 +147,3 @@ function markInProgress(id) {
     }).then(() => loadTasks());
 }
 
-function markComplete(id) {
-    fetch(`${TASK_API}/status/${id}/complete`, {
-        method: "PATCH",
-        headers,
-        body: ({taskId: id, status: "COMPLETED"})
-    }).then(() => loadTasks());
-}
