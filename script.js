@@ -92,8 +92,14 @@ function updateTask(id, oldTitle) {
         headers,
         body: JSON.stringify({ title: newTitle })
     })
-    .then((responsr) => {
-        loadTasks());
+    .then((response) => {
+        if(!response.ok) throw new Error("Failed to uopdate task");
+        loadTasks();
+    })
+    .catch((err)=> {
+        console.error("Failed to update task", err);
+        alert("Failed to update task")
+    });
 }
 
 function markComplete(id) {
@@ -102,11 +108,10 @@ function markComplete(id) {
         headers,
         body: ({taskId: id, status: "COMPLETED"})
     })
-    .then((response) => {
-        loadTasks()
-    })
+    .then(() => loadTasks())
     .catch((err) => {
-        console.error("Failed to mark task as complete: ", err)
+        console.error("Failed to mark task as complete: ", err);
+        alert("Failed to mark complete")
     });
 }
 
@@ -118,7 +123,8 @@ function markInProgress(id) {
     })
     .then(() => loadTasks())
     .catch((err) => {
-        console.error("Failed to mark task as in progress: ", err)
+        console.error("Failed to mark task as in progress: ", err);
+        alert("Failed to mark task as in progress");
     });
 }
 
@@ -151,7 +157,10 @@ function loadTasks() {
             taskList.appendChild(li);
         });
     })
-    .catch(err => console.error("Failed to load tasks: ", err))
+    .catch((err) => {
+        console.error("Failed to load tasks: ", err);
+        alert("Failed to load tasks")
+    })
 }
 
 function handleTitleKey(event) {
@@ -198,7 +207,10 @@ function searchTask() {
             taskList.appendChild(li);
         });
     })
-    .catch(err=> console.error("Failed to search tasks, kindly try again", err))
+    .catch((err)=> {
+        console.error("Failed to search tasks, kindly try again", err);
+        alert("Failed to searxh task");
+    });
 }
 
 function changePassword() {
@@ -223,6 +235,7 @@ function changePassword() {
     })
     .catch((err)=> {
         console.error("Failed to change password: ", err);
+        alert("Failed to change password")
     });
 }
 
@@ -248,5 +261,6 @@ function changeEmail() {
     })
     .catch((err) => {
         console.error("Failed to change email", err);
+        alert("Failed to change email")
     })
 }
