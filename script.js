@@ -62,12 +62,14 @@ function addTask() {
         console.log("Task added: ", data)
         document.getElementById("task-title").value = "";
         document.getElementById("task-description").value = "";
-        document.getElementById("task-status").value ="PENDING";
         document.getElementById("description-section").classList.add("hidden");
     
         loadTasks();
     })
-    .catch(err => console.error("Failed to add task:", err));
+    .catch((err) => {
+        console.error("Failed to add task:", err)
+        alert("Failed to ad task")
+    });
 }
 
 function deleteTask(id) {
@@ -76,7 +78,10 @@ function deleteTask(id) {
         headers
     })
     .then(()=> loadTasks())
-    .catch(err => console.error("Failed to delete task: ", err));
+    .catch((err) => {
+        console.error("Failed to delete task: ", err);
+        alert("Failed to delete task");
+    });
 }
 
 function updateTask(id, oldTitle) {
@@ -86,7 +91,9 @@ function updateTask(id, oldTitle) {
         method: 'PUT',
         headers,
         body: JSON.stringify({ title: newTitle })
-    }).then(() =>  loadTasks());
+    })
+    .then((responsr) => {
+        loadTasks());
 }
 
 function markComplete(id) {
@@ -95,7 +102,9 @@ function markComplete(id) {
         headers,
         body: ({taskId: id, status: "COMPLETED"})
     })
-    .then(() => loadTasks())
+    .then((response) => {
+        loadTasks()
+    })
     .catch((err) => {
         console.error("Failed to mark task as complete: ", err)
     });
