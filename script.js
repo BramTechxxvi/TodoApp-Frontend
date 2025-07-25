@@ -185,8 +185,59 @@ function searchTask() {
                     <button onclick="updateTask('${task.id}', '${task.title}')">Edit</button>
                 </div>
             </div>
-            `
-        })
+            `;
+            taskList.appendChild(li);
+        });
     })
-    
+    .catch(err=> console.error("Failed to search tasks, kindly try again", err))
+}
+
+function changePassword() {
+    const oldPassword = document.getElementById("old-password").value.trim();
+    const newPassword = document.getElementById("new-password").value.trim();
+    if(!oldPassword || !newPassword) {
+        alert("Please fill in both password fields");
+        return;
+    }
+    fetch(`${USER_API}/changePassword/{id}`, {
+        method: "PATCH",
+        headers, 
+        body: JSON.stringify({ oldPassword, newPassword })
+    })
+    .then((response)=> {
+        if(!response.ok) return response.text().then((message) => {
+            throw new Error(message);
+        });
+        alert("Password updated succesfully.");
+        document.getElementById("old-password").value ="";
+        document.getElementById("new-password").value ="";
+    })
+    .catch((err)=> {
+        console.error("Failed to change password: ", err);
+    });
+}
+
+function changeEmail() {
+    const oldEmail = document.getElementById("old-email").value.trim();
+    const newEmail = document.getElementById("new-email").value.trim();
+    if(!oldEmail || !newEmail) {
+        alert("Please in both email fields");
+        return
+    }
+    fetch(`${USER_API}/changeEmail/{id}`, {
+        method: "PATCH",
+        headers,
+        body: JSON.stringify( {oldEmail, newEmail} )
+    })
+    .then((response)=> {
+        if(!response.ok) return response.text().then((message)=> {
+            throw new Error(message);
+        });
+        alert("Email updated succesfully.");
+        document.getElementById("old-email").value ="";
+        document.getElementById("new-email").value = "";
+    })
+    .catch((err) => {
+        console.error("Failed to change email", err);
+    })
 }
