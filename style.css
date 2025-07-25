@@ -31,7 +31,9 @@ body {
         flex-direction: column;
         align-items: flex-start;
     }
-    
+    .profile-sidebar {
+        width: 100%;
+    }
 }
 
 @media (min-width: 601px) and (max-width: 1024px) {
@@ -46,6 +48,10 @@ body {
 
   #searchTask {
     width: 70%;
+  }
+
+  .profile-sidebar {
+    width: 50%
   }
 }
 
@@ -99,8 +105,6 @@ body {
     outline: none;
     border-color: #007bff;
 }
-
-
 
 
 .add-task {
