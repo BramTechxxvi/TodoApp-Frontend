@@ -12,6 +12,7 @@ const headers = {
 
 document.addEventListener("DOMContentLoaded", () => {
     loadTasks();
+    // loadUserProfile();
 });
 
 const logout = ()=> {
