@@ -1,36 +1,289 @@
-
-
-window.onload = () => {
-    loadUserEmail();
-    fetchTasks();
-};
-
-function loadUserEmail() {
-    const email = localStorage.getItem('userEmail');
-    if (email) document.getElementById('user-email').textContent = `Welcome, ${email}`;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f6f6f6;
 }
 
-
-function changeEmail() {
-    const email = document.getElementById('new-email').value;
-    fetch(`${BASE_URL}/api/user/changeEmail`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: USER_ID, newEmail: email })
-    }).then(() => {
-        localStorage.setItem('userEmail', email);
-        loadUserEmail();
-        alert('Email updated.');
-    });
+.MainContainer {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #ADD8E6;
+    min-height: 100vh;
+    position: relative;
 }
 
-function changePassword() {
-    const password = document.getElementById('new-password').value;
-    fetch(`${BASE_URL}/api/user/changePassword`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: USER_ID, newPassword: password })
-    }).then(() => alert('Password updated.'));
+@media (max-width: 600px) {
+    .MainContainer {
+        padding: 15px;
+    }
+    #searchTask {
+        width: 100%;
+    }
+    .add-task {
+        flex-direction: column;
+    }
+    .dashboard-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .profile-sidebar {
+        width: 100%;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+    .MainContainer {
+        padding: 15px 30px;
+    }
+    .add-task {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    #searchTask {
+        width: 70%;
+    }
+    .profile-sidebar {
+        width: 50%;
+    }
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.logoBox {
+    font-size: 60px;
+    color: #0056b3;
+    margin-bottom: 0px;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.6);
+}
+
+.dashboard-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.profile-icon {
+    font-size: 30px;
+    color: #0056b3;
+    cursor: pointer;
+}
+
+#search {
+    display: flex;
+    justify-content: right;
+}
+
+#searchTask {
+    width: 500px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: border-color 0.35s ease;
+}
+
+#searchTask:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.add-task {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#task-title, #task-description, #old-email, #new-email, #old-password, #new-password {
+    flex-grow: 1;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1.8px solid #ddd;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+#task-title:focus, #task-description:focus, #old-email:focus, #new-email:focus, #old-password:focus, #new-password:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.add-task button, .form-section button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 0 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-task button:hover, .form-section button:hover {
+    background-color: #0056b3;
+}
+
+#description-section {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0px 4px;
+}
+
+#description-section:not(.hidden) {
+    max-height: 200px;
+    opacity: 1;
+    margin-top: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+#taskList {
+    list-style: none;
+    padding: 0;
+}
+
+.task-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 8px;
+    border-bottom: 1px solid #eee;
+    background: white;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.task-box:last-child {
+    border-bottom: none;
+}
+
+.task-title.pending {
+    color: #ff9800;
+}
+
+.task-title.in_progress {
+    color: #2196f3;
+}
+
+.task-title.completed {
+    color: #4caf50;
+    text-decoration: line-through;
+}
+
+.task-box button {
+    background: transparent;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    color: #444;
+    margin-left: 5px;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.task-box button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.profile-sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100vh;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 1000;
+    transition: right 0.3s ease-in-out;
+}
+
+.profile-sidebar:not(.hidden) {
+    right: 0;
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.profile-contact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-contact ion-icon {
+    font-size: 40px;
+    color: #0056b3;
+}
+
+.onlineDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50px;
+    background-color: #00c853;
+    animation: glow 1.5s ease-in-out infinite;
+    box-shadow: 0 0 8px 2px #00c853;
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 8px 2px #00c853;
+    }
+    50% {
+        box-shadow: 0 0 12px 4px #00c853;
+    }
+    100% {
+        box-shadow: 0 0 8px 2px #00c853;
+    }
+}
+
+.close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #444;
+}
+
+.close-icon:hover {
+    color: #dc3545;
+}
+
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-section h4 {
+    margin: 0 0 10px 0;
+    color: #333;
 }
 
 

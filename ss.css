@@ -1,0 +1,11 @@
+ 
+
+    <aside id="profile-sidebar" class="profile-sidebar hidden">
+        <div class="profile-header">
+            <ion-icon name="close-outline" class="close-icon" onclick="toggleProfileSidebar()"></ion-icon>
+            <div class="profile-contact">
+                <ion-icon name="person-circle-outline"></ion-icon>
+                <span class="onlineDot"></span>
+            </div>
+            <h3 id="username">Loading...</h3>
+        </div>

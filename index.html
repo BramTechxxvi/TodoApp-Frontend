@@ -19,7 +19,7 @@
             <h1>TODOs</h1>
         </div>
         <div class="dashboard-actions">
-            <div class="profile-icon">
+            <div class="profile-icon" onclick="toggleProfileSideBar()">
                 <ion-icon name="person-outline"></ion-icon>
             </div>
             <button onclick="logout()">Logout</button>
@@ -53,20 +53,34 @@
         </ul>
     </main>
 
-    <div id="changeEmailForm" class="hidden">
-        <input type="email" id="old-email" placeholder="Old Email">
-        <input type="email" id="new-email" placeholder="New Email">
-        <button onclick="changeEmail()">Update Email</button>
-    </div>
-
-    <div class="changePasswordForm">
-        <input type="text" id="old-password" placeholder="Old Password">
-        <input type="password" id="new-password" placeholder="New Password">
-        <button onclick="changePassword()">Update Password</button>
-    </div>
+    <aside id="profile-sidebar" class="profile-sidebar hidden">
+        <div class="profile-header">
+            <ion-icon name="close-outline" class="close-icon" onclick="toggleProfileSideBar()"></ion-icon>
+            <div class="profile-contact">
+                <ion-icon name="person-circle-outline"></ion-icon>
+                <span class="onlineDot"></span>
+            </div>
+            <h3 id="username">Loading...</h3>
+        </div>
+        <div class="profile-actions">
+            <div class="form-section">
+                <h4>Change Email</h4>
+                <input type="email" id="old-email" placeholder="Old Email">
+                <input type="email" id="new-email" placeholder="New Email">
+                <button onclick="changeEmail()">Update Email</button>
+            </div>
+            
+            <div class="form-section">
+                <h4>Change Password</h4>
+                <input type="text" id="old-password" placeholder="Old Password">
+                <input type="password" id="new-password" placeholder="New Password">
+                <button onclick="changePassword()">Update Password</button>
+            </div>
+        </div>
+    </aside>
 
 </div>
-<!-- <script src="script.js"></script> -->
+<script src="script.js"></script>
 </body>
 </html>
 

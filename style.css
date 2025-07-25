@@ -11,6 +11,7 @@ body {
     box-sizing: border-box;
     background-color: #ADD8E6;
     min-height: 100vh;
+    position: relative
 }
 
 @media (max-width: 600px) {
