@@ -5,18 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TODO App</title>
     <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 <body>
 <div class="MainContainer">
 
     <header class="header">
-        <h1>TODO App</h1>
         <div class="user-info">
-            <span id="user-email">Welcome, Bram@customer.com</span>
+            <div class="logoBox">
+                <ion-icon name="checkbox-outline"></ion-icon>
+            </div>
+            <h1>TODOs</h1>
         </div>
         <div class="dashboard-actions">
             <button onclick="showEmailForm()">Change Email</button>
-            <button onclick="showPasswordForm()">Change Password</button>
+            <button onclick="showProfile()">Profile</button>
             <button onclick="logout()">Logout</button>
         </div>
     </header>   
@@ -61,7 +65,7 @@
     </div>
 
 </div>
-<script src="script.js"></script>
+<!-- <script src="script.js"></script> -->
 </body>
 </html>
 
