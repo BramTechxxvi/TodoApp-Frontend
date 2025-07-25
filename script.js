@@ -81,9 +81,7 @@ function loadTasks() {
             li.className = "task-box"
             li.innerHTML = `
             <div>
-                <div>
-                    <span class="task-title ${task.status}">${task.title}</span>
-                </div>
+                <span class="task-title ${task.status}">${task.title}</span>
                 <div>
                     <button onclick="deleteTask('${task.id}')">Delete</button>
                     <button>Completed</button>
@@ -106,19 +104,6 @@ function handleTitleKey(event) {
         }
     }
 }
-
-function markInProgress(id) {
-    fetch(`${TASK_API}/`)
-}
-
-
-// function toggleComplete(id, isComplete) {
-//     const endpoint = isComplete ? `${URL}/${id}/complete` : `${URL}/${id}/in-progress`;
-//     fetch(endpoint, { method: "PATCH" })
-//         .then(() => fetchTasks());
-// }
-
-
 
 function markInProgress(id) {
     fetch(`${TASK_API}/${id}/in-progress`, {
