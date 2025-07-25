@@ -101,8 +101,23 @@ function markComplete(id) {
     });
 }
 
+function markInProgress(id) {
+    fetch(`${TASK_API}/${id}/in-progress`, {
+        method: "PATCH",
+        headers,
+        body: ({taskId: id, status: "IN_PROGRESS"})
+    })
+    .then(() => loadTasks())
+    .catch((err) => {
+        console.error("Failed to mark task as in progress: ", err)
+    });
+}
+
 function loadTasks() {
-    fetch(`${TASK_API}/getAllTasks`, { headers })
+    fetch(`${TASK_API}/getAll`, {
+        method: "GET",
+        headers 
+    })
     .then(res=> {
         if (!res.ok) throw new Error("Failed to fetch tasks");
         return res.json();
@@ -110,16 +125,17 @@ function loadTasks() {
     .then(tasks=> {
         const taskList = document.getElementById("taskList");
         taskList.innerHTML = "";
-        tasks.forEach(task => {
+        tasks.forEach((task) => {
             const li = document.createElement("li");
             li.className = "task-box"
             li.innerHTML = `
             <div>
-                <span class="task-title ${task.status}">${task.title}</span>
+                <span class="task-title ${task.status.toLowerCase()}">${task.title}</span>
                 <div>
                     <button onclick="deleteTask('${task.id}')">Delete</button>
-                    <button>Completed</button>
-                    <button>In Progress</button>
+                    <button onclick="markComplete('${task.id}')">Completed</button>
+                    <button onclick="markInProgress('${task.id}')">In Progress</button>
+                    <button onclick="updateTask('${task.id}', '${task.title}')">Edit</button>
                 </div>
             </div>
             `;
@@ -139,11 +155,38 @@ function handleTitleKey(event) {
     }
 }
 
-function markInProgress(id) {
-    fetch(`${TASK_API}/${id}/in-progress`, {
-        method: "PATCH",
-        headers,
-        body: ({taskId: id, status: "IN_PROGRESS"})
-    }).then(() => loadTasks());
+function searchTask() {
+    const query = document.getElementById("searchTask").value.trim().toLowerCase();
+    fetch(`${TASK_API}/getAll`, {
+        method: "GET",
+        headers
+    })
+    .then((res)=> {
+        if(!res.ok) throw new Error("Failed to fetch tasks");
+        return res.json();
+    })
+    .then((tasks)=> {
+        const filteredTasks = tasks.filter((task) =>
+            task.title.toLowerCase().include(query) ||
+            task.description.toLowerCase().includes(query)
+        );
+        const taskList = document.getElementById("taskList");
+        taskList.innerHTML = "";
+        filteredTasks.forEach((task)=> {
+            const li = document.createElement("li");
+            li.className = "task-box";
+            li.innerHTML = `
+            <div>
+                <span class="task-title ${task.status.toLowerCase()}">${task.title}</span>
+                <div>
+                    <button onclick="deleteTask('${task.id}')">Delete</button>
+                    <button onclick="markComplete('${task.id}')">Completed</button>
+                    <button onclick="markInProgress('${task.id}')">In Progress</button>
+                    <button onclick="updateTask('${task.id}', '${task.title}')">Edit</button>
+                </div>
+            </div>
+            `
+        })
+    })
+    
 }
-
