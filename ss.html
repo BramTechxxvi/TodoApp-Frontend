@@ -1,57 +1,36 @@
+// js/api.js
+const API_BASE_URL = "http://localhost:8080/api";
 
-
-
-    fetch(`${TASK_API}/add`, {
-        method: "POST",
-        headers,
-        body: JSON.stringify({ title, description, status })
-    })
-    .then(response => {
-        if(!response.ok) throw new Error("Failed to add task");
-        return response.json();
-    })
-    .then(() => {
-        document.getElementById("task-title").value = "";
-        document.getElementById("task-description").value = "";
-        document.getElementById("description-section").classList.add("hidden");
-        loadTasks();
-    })
-    .catch(err => {
-        console.error("Failed to add task:", err);
-        alert("Failed to add task");
-    });
+function getAuthToken() {
+  return localStorage.getItem("token");
 }
 
-function deleteTask(id) {
-    fetch(`${TASK_API}/delete/${id}`, {
-        method: "DELETE",
-        headers
-    })
-    .then(() => loadTasks())
-    .catch(err => {
-        console.error("Failed to delete task:", err);
-        alert("Failed to delete task");
-    });
+async function apiRequest(endpoint, method = "GET", data = null, isAuth = true) {
+  const headers = { "Content-Type": "application/json" };
+  if (isAuth && getAuthToken()) headers["Authorization"] = `Bearer ${getAuthToken()}`;
+
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    method,
+    headers,
+    body: data ? JSON.stringify(data) : null,
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(error || "API Error");
+  }
+
+  return response.json();
 }
 
-function updateTask(id, oldTitle) {
-    const newTitle = prompt("Edit task:", oldTitle);
-    if (!newTitle || newTitle === oldTitle) return;
 
-    fetch(`${TASK_API}/update/${id}`, {
-        method: "PUT",
-        headers,
-        body: JSON.stringify({ title: newTitle })
-    })
-    .then(res => {
-        if(!res.ok) throw new Error("Failed to update task");
-        loadTasks();
-    })
-    .catch(err => {
-        console.error("Failed to update task:", err);
-        alert("Failed to update task");
-    });
-}
+
+
+
+
+
+
+
 
 function markComplete(id) {
     fetch(`${TASK_API}/status/${id}/complete`, {
