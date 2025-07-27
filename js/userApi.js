@@ -14,4 +14,6 @@ async function changeEmail(oldEmail, newEmail) {
     return apiRequest("/users/changeEmail/{id}", "PUT", { oldEmail, newEmail })
 }
 
-async func
+async function changePassword(oldPassword, newPassword) {
+    return apiRequest("users/changePassword/{id}", "PUT", { oldPassword, newPassword })
+}

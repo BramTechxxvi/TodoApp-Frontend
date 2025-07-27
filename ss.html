@@ -1,23 +1,16 @@
-// js/userApi.js
-async function loginUser(email, password) {
-  return apiRequest("/auth/login", "POST", { email, password }, false);
+// js/taskApi.js
+async function getTasks() {
+  return apiRequest("/tasks", "GET");
 }
 
-async function registerUser(name, email, password) {
-  return apiRequest("/auth/register", "POST", { name, email, password }, false);
+async function addTask(title, description) {
+  return apiRequest("/tasks", "POST", { title, description });
 }
 
-async function getProfile() {
-  return apiRequest("/users/profile", "GET");
+async function deleteTask(taskId) {
+  return apiRequest(`/tasks/${taskId}`, "DELETE");
 }
 
-async function updateProfile(name, email) {
-  return apiRequest("/users/profile", "PUT", { name, email });
-}
-
-async function changePassword(oldPassword, newPassword) {
-  return apiRequest("/users/change-password", "PUT", { oldPassword, newPassword });
-}
 
 
 
