@@ -1,0 +1,83 @@
+    try {
+        await fetch(`${USER_API}/logout`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+    } catch (err) {
+        console.warn("Backend logout failed or not required:", err);
+    }
+
+    // Clear token and redirect
+    localStorage.removeItem("token");
+    window.location.href = "logmethodin.html";
+};
+
+
+const logout = () => {
+    fetch(`${USER_API}/logout`, {
+        method: "POST",
+        headers
+    })
+    .then(res => {
+        // Even if backend fails, clear token
+        localStorage.removeItem("token");
+        window.location.href = "login.html";
+    })
+    .catch(() => {
+        localStorage.removeItem("token");
+        window.location.href = "login.html";
+    });
+};
+
+function toggleProfileSideBar() {
+    const sideBar = document.getElementById("profile-sidebar");
+    sideBar.classList.toggle("hidden");
+}
+
+function addTask() {
+    const title = document.getElementById("task-title").value.trim();
+    const description = document.getElementById("task-description").value.trim();
+    const status = "PENDING";
+
+    if (!title || !description) {
+        alert("Fill in both fields.");
+        return;
+    }
+
+    fetch(`${TASK_API}/add`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ title, description, status })
+    })
+    .then(response => {
+        if(!response.ok) throw new Error("Failed to add task");
+        return response.json();
+    })
+    .then(() => {
+        document.getElementById("task-title").value = "";
+        document.getElementById("task-description").value = "";
+        document.getElementById("description-section").classList.add("hidden");
+        loadTasks();
+    })
+    .catch(err => {
+        console.error("Failed to add task:", err);
+        alert("Failed to add task");
+    });
+}
+
+function deleteTask(id) {
+    fetch(`${TASK_API}/delete/${id}`, {
+        method: "DELETE",
+        headers
+    })
+    .then(() => loadTasks())
+    .catch(err => {
+        console.error("Failed to delete task:", err);
+        alert("Failed to delete task");
+    });
+}
+
+function updateTask(id, oldTitle) {
+    const newTitle = prompt("Edit task:", old

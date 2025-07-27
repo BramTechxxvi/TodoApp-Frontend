@@ -16,8 +16,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const logout = ()=> {
-    localStorage.removeItem("token");
-    window.location.href = "login.html";
+    fetch(`${USER_API}/logout{id}`, {
+        method: "POST",
+        headers
+    })
+    .then(response => {
+        
+    })
 };
 
 function toggleProfileSideBar() {
