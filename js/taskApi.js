@@ -1,4 +1,9 @@
 async function getTasks() {
-    return apiRequest("/tasks/add", "POST", { title, description, status });
+    return apiRequest("/tasks/add", "GET", true);
 }
-async
+
+async function addTask () {
+    return apiRequest("/tasks/add", "GET", true);
+}
+
+async fun
