@@ -4,7 +4,7 @@ const API_BASE = "http://localhost:8080";
     return localStorage.getItem("token");
  };
 
- async function apiRequest(params) { 
+ async function apiRequest(endpoint, method= "GET", data= null, isAuth=true) { 
     const headers = { "Content-type": "application/json" };
     if (isAuth && getAuthToken()) headers["Authorization"] = `Bearer ${getAuthToken()}`;
 

@@ -1,23 +1,22 @@
-
-  return localStorage.getItem("token");
+// js/userApi.js
+async function loginUser(email, password) {
+  return apiRequest("/auth/login", "POST", { email, password }, false);
 }
 
-async function apiRequest(endpoint, method = "GET", data = null, isAuth = true) {
-  const headers = { "Content-Type": "application/json" };
-  if (isAuth && getAuthToken()) headers["Authorization"] = `Bearer ${getAuthToken()}`;
+async function registerUser(name, email, password) {
+  return apiRequest("/auth/register", "POST", { name, email, password }, false);
+}
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    method,
-    headers,
-    body: data ? JSON.stringify(data) : null,
-  });
+async function getProfile() {
+  return apiRequest("/users/profile", "GET");
+}
 
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(error || "API Error");
-  }
+async function updateProfile(name, email) {
+  return apiRequest("/users/profile", "PUT", { name, email });
+}
 
-  return response.json();
+async function changePassword(oldPassword, newPassword) {
+  return apiRequest("/users/change-password", "PUT", { oldPassword, newPassword });
 }
 
 
