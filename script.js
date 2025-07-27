@@ -129,7 +129,7 @@ function markInProgress(id) {
 }
 
 function loadTasks() {
-    fetch(`${TASK_API}/getAll`, {
+    fetch(`${TASK_API}/getAll/{id}`, {
         method: "GET",
         headers 
     })
@@ -175,7 +175,7 @@ function handleTitleKey(event) {
 
 function searchTask() {
     const query = document.getElementById("searchTask").value.trim().toLowerCase();
-    fetch(`${TASK_API}/getAll`, {
+    fetch(`${TASK_API}/getAll/{id}`, {
         method: "GET",
         headers
     })
