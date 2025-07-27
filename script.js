@@ -20,8 +20,9 @@ const logout = ()=> {
         method: "POST",
         headers
     })
-    .then(response => {
-        
+    .finally(()=>{
+        localStorage.remove("token");
+        window.location.href = "login.html";
     })
 };
 
