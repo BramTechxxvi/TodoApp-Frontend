@@ -1,50 +1,5 @@
-    try {
-        await fetch(`${USER_API}/logout`, {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        });
-    } catch (err) {
-        console.warn("Backend logout failed or not required:", err);
-    }
-
-    // Clear token and redirect
-    localStorage.removeItem("token");
-    window.location.href = "logmethodin.html";
-};
 
 
-const logout = () => {
-    fetch(`${USER_API}/logout`, {
-        method: "POST",
-        headers
-    })
-    .then(res => {
-        // Even if backend fails, clear token
-        localStorage.removeItem("token");
-        window.location.href = "login.html";
-    })
-    .catch(() => {
-        localStorage.removeItem("token");
-        window.location.href = "login.html";
-    });
-};
-
-function toggleProfileSideBar() {
-    const sideBar = document.getElementById("profile-sidebar");
-    sideBar.classList.toggle("hidden");
-}
-
-function addTask() {
-    const title = document.getElementById("task-title").value.trim();
-    const description = document.getElementById("task-description").value.trim();
-    const status = "PENDING";
-
-    if (!title || !description) {
-        alert("Fill in both fields.");
-        return;
-    }
 
     fetch(`${TASK_API}/add`, {
         method: "POST",
@@ -80,4 +35,175 @@ function deleteTask(id) {
 }
 
 function updateTask(id, oldTitle) {
-    const newTitle = prompt("Edit task:", old
+    const newTitle = prompt("Edit task:", oldTitle);
+    if (!newTitle || newTitle === oldTitle) return;
+
+    fetch(`${TASK_API}/update/${id}`, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify({ title: newTitle })
+    })
+    .then(res => {
+        if(!res.ok) throw new Error("Failed to update task");
+        loadTasks();
+    })
+    .catch(err => {
+        console.error("Failed to update task:", err);
+        alert("Failed to update task");
+    });
+}
+
+function markComplete(id) {
+    fetch(`${TASK_API}/status/${id}/complete`, {
+        method: "PATCH",
+        headers
+    })
+    .then(() => loadTasks())
+    .catch(err => {
+        console.error("Failed to mark complete:", err);
+        alert("Failed to mark complete");
+    });
+}
+
+function markInProgress(id) {
+    fetch(`${TASK_API}/status/${id}/in-progress`, {
+        method: "PATCH",
+        headers
+    })
+    .then(() => loadTasks())
+    .catch(err => {
+        console.error("Failed to mark in progress:", err);
+        alert("Failed to mark in progress");
+    });
+}
+
+function loadTasks() {
+    fetch(`${TASK_API}/getAll`, {
+        method: "GET",
+        headers
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("Failed to fetch tasks");
+        return res.json();
+    })
+    .then(tasks => {
+        const taskList = document.getElementById("taskList");
+        taskList.innerHTML = "";
+        tasks.forEach(task => {
+            const li = document.createElement("li");
+            li.className = "task-box";
+            li.innerHTML = `
+                <div>
+                    <span class="task-title ${task.status.toLowerCase()}">${task.title}</span>
+                    <div>
+                        <button onclick="deleteTask('${task.id}')">Delete</button>
+                        <button onclick="markComplete('${task.id}')">Completed</button>
+                        <button onclick="markInProgress('${task.id}')">In Progress</button>
+                        <button onclick="updateTask('${task.id}', '${task.title}')">Edit</button>
+                    </div>
+                </div>
+            `;
+            taskList.appendChild(li);
+        });
+    })
+    .catch(err => {
+        console.error("Failed to load tasks:", err);
+        alert("Failed to load tasks");
+    });
+}
+
+function handleTitleKey(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        const title = event.target.value.trim();
+        if (title) {
+            document.getElementById("description-section").classList.remove("hidden");
+        }
+    }
+}
+
+function searchTasks() {
+    const query = document.getElementById("searchTask").value.trim().toLowerCase();
+    fetch(`${TASK_API}/getAll`, {
+        method: "GET",
+        headers
+    })
+    .then(res => res.json())
+    .then(tasks => {
+        const filtered = tasks.filter(task =>
+            task.title.toLowerCase().includes(query) ||
+            task.description.toLowerCase().includes(query)
+        );
+        const taskList = document.getElementById("taskList");
+        taskList.innerHTML = "";
+        filtered.forEach(task => {
+            const li = document.createElement("li");
+            li.className = "task-box";
+            li.innerHTML = `
+                <div>
+                    <span class="task-title ${task.status.toLowerCase()}">${task.title}</span>
+                    <div>
+                        <button onclick="deleteTask('${task.id}')">Delete</button>
+                        <button onclick="markComplete('${task.id}')">Completed</button>
+                        <button onclick="markInProgress('${task.id}')">In Progress</button>
+                        <button onclick="updateTask('${task.id}', '${task.title}')">Edit</button>
+                    </div>
+                </div>
+            `;
+            taskList.appendChild(li);
+        });
+    })
+    .catch(err => console.error("Search failed:", err));
+}
+
+function changePassword() {
+    const oldPassword = document.getElementById("old-password").value.trim();
+    const newPassword = document.getElementById("new-password").value.trim();
+
+    if (!oldPassword || !newPassword) {
+        alert("Please fill in both password fields");
+        return;
+    }
+
+    fetch(`${USER_API}/changePassword`, {
+        method: "PATCH",
+        headers,
+        body: JSON.stringify({ oldPassword, newPassword })
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("Failed to change password");
+        alert("Password updated successfully");
+        document.getElementById("old-password").value = "";
+        document.getElementById("new-password").value = "";
+    })
+    .catch(err => {
+        console.error("Failed to change password:", err);
+        alert("Failed to change password");
+    });
+}
+
+function changeEmail() {
+    const oldEmail = document.getElementById("old-email").value.trim();
+    const newEmail = document.getElementById("new-email").value.trim();
+
+    if (!oldEmail || !newEmail) {
+        alert("Please fill in both email fields");
+        return;
+    }
+
+    fetch(`${USER_API}/changeEmail`, {
+        method: "PATCH",
+        headers,
+        body: JSON.stringify({ oldEmail, newEmail })
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("Failed to change email");
+        alert("Email updated successfully");
+        document.getElementById("old-email").value = "";
+        document.getElementById("new-email").value = "";
+    })
+    .catch(err => {
+        console.error("Failed to change email:", err);
+        alert("Failed to change email");
+    });
+}
