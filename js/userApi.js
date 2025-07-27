@@ -17,3 +17,7 @@ async function changeEmail(oldEmail, newEmail) {
 async function changePassword(oldPassword, newPassword) {
     return apiRequest("users/changePassword/{id}", "PUT", { oldPassword, newPassword })
 }
+
+async function logout() {
+    return apiRequest("/users/logout/{id}", "POST")
+}
